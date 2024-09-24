@@ -10,7 +10,7 @@ def day4():
 
     hashtext = ""
     index = 1
-    while(hashtext[0:6] != "000000"):
+    while(hashtext[0:6] != "000000"): #modify the condition whether you need 5 or 6 zeroes
         encoded = text + (str)(index)
         hashtext = hl.md5(encoded.encode()).hexdigest()
         index+=1
