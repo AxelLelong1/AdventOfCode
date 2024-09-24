@@ -14,6 +14,5 @@ def day4():
         encoded = text + (str)(index)
         hashtext = hl.md5(encoded.encode()).hexdigest()
         index+=1
-        #print(hashtext)
     
     print(index-1)
