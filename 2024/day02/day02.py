@@ -35,3 +35,5 @@ def day2():
     # Output results
     print("Safe reports:", len(safe_reports))
     return safe_reports
+
+day2()

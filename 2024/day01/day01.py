@@ -33,3 +33,5 @@ def day1():
     print("Distance Score == ", distance)
     print("Similaritude Score == ", simi)
     return (distance, simi)
+
+day1()

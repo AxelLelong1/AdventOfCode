@@ -18,3 +18,5 @@ def day3():
 
     print(total1, total2)
     return(total1, total2)
+
+day3()
