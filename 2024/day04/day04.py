@@ -57,12 +57,66 @@ def try_UpLeft(data, X, Y , letter):
         return try_UpLeft(data, X - 1, Y-1, letter+1)
     return 0
 
-def CrossMas(data, X, Y, letter):
-    return 1
+def get_upper_left(data, x, y):
+    if x - 1 >= 0 and y - 1 >= 0:
+        return data[y - 1][x - 1]
+    return '0'
+
+
+def get_upper_right(data, x, y):
+    if x + 1 < len(data) and y - 1 >= 0:
+        return data[y - 1][x + 1]
+    return '0'
+
+
+def get_bottom_right(data, x, y):
+    if x + 1 < len(data) and y + 1 < len(data):
+        return data[y + 1][x + 1]
+    return '0'
+
+
+def get_bottom_left(data, x, y):
+    if x - 1 >= 0 and y + 1 < len(data):
+        return data[y + 1][x - 1]
+    return '0'
+
+
+def is_xmas(data, x, y):
+    """Check if there is an X-MAS pattern centered at (x, y)."""
+    # Check the diagonals from the center point (x, y)
+    ul = get_upper_left(data, x, y)  # Upper-left
+    ur = get_upper_right(data, x, y)  # Upper-right
+    bl = get_bottom_left(data, x, y)  # Bottom-left
+    br = get_bottom_right(data, x, y)  # Bottom-right
+
+    # Check the two diagonals for MAS or SAM
+    diag1 = ul + data[y][x] + br  # Top-left to bottom-right
+    diag2 = ur + data[y][x] + bl  # Top-right to bottom-left
+
+    # Valid X-MAS patterns
+    valid_patterns = {"MAS", "SAM"}
+
+    # Check if both diagonals form valid MAS/SAM patterns
+    if diag1 in valid_patterns and diag2 in valid_patterns:
+        return 1  # Found a valid X-MAS
+    return 0  # Not an X-MAS
+
+def count_xmas(data):
+    """Count all X-MAS patterns in the grid."""
+    count = 0
+
+    # Loop through the grid and check each position as a possible center of X-MAS
+    for y in range(len(data)):
+        for x in range(len(data)):
+            count += is_xmas(data, x, y)
+
+    return count
 
 def day4():
     with open("day04/input.txt") as file:
         data = file.readlines()
+
+    xmas_count = count_xmas(data)
 
     XMAS = 0
     MAS = 0
@@ -78,10 +132,7 @@ def day4():
                 XMAS += try_UpRight(data, positionX, positionY, 0) + try_UpLeft(data, positionX, positionY, 0)
                 XMAS += try_DownRight(data, positionX, positionY, 0) + try_DownLeft(data, positionX, positionY, 0)
 
-            if (data[positionY][positionX] == 'A'):
-                MAS += CrossMas(data, positionX, positionX, 1)
-
-    print(XMAS, MAS)
-    return (XMAS, MAS)
+    print(XMAS, xmas_count)
+    return (XMAS, xmas_count)
 
 day4()
